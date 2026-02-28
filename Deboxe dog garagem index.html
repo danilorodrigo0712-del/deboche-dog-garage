@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deboche Dog Garage</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: white;
+}
+
+header {
+  background: #111;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 2px solid red;
+}
+
+h1 {
+  margin: 0;
+  color: orange;
+}
+
+.container {
+  padding: 20px;
+}
+
+.card {
+  background: #111;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+}
+
+button {
+  background: orange;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cart {
+  background: #111;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 12px;
+}
+
+input, select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Deboche Dog Garage 🌭🔥</h1>
+  <p>Mais quente que motor turbo</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h3>Dog Aspirado</h3>
+    <p>R$ 12,00</p>
+    <button onclick="addItem('Dog Aspirado',12)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <h3>Dog Turbo</h3>
+    <p>R$ 15,00</p>
+    <button onclick="addItem('Dog Turbo',15)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <h3>Dog Fumaça</h3>
+    <p>R$ 19,00</p>
+    <button onclick="addItem('Dog Fumaça',19)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <h3>Dog Deboche Supremo</h3>
+    <p>R$ 22,00</p>
+    <button onclick="addItem('Dog Supremo',22)">Adicionar</button>
+  </div>
+
+  <div class="cart">
+    <h2>Carrinho</h2>
+    <div id="items"></div>
+
+    <label>Tipo:</label>
+    <select id="tipo">
+      <option value="retirada">Retirada</option>
+      <option value="entrega">Entrega</option>
+    </select>
+
+    <div id="entregaBox" style="display:none;">
+      <label>Distância (km):</label>
+      <input type="number" id="km" value="0">
+    </div>
+
+    <h3>Total: R$ <span id="total">0.00</span></h3>
+
+    <button onclick="finalizar()">Finalizar Pedido</button>
+  </div>
+
+</div>
+
+<script>
+
+let carrinho = [];
+let total = 0;
+
+function addItem(nome, preco){
+  carrinho.push({nome, preco});
+  atualizar();
+}
+
+function atualizar(){
+  let lista = document.getElementById("items");
+  lista.innerHTML = "";
+  total = 0;
+
+  carrinho.forEach(item => {
+    lista.innerHTML += "<p>"+item.nome+" - R$ "+item.preco+"</p>";
+    total += item.preco;
+  });
+
+  calcular();
+}
+
+function calcular(){
+  let tipo = document.getElementById("tipo").value;
+  let taxa = 0;
+
+  if(tipo === "entrega"){
+    document.getElementById("entregaBox").style.display = "block";
+    let km = Number(document.getElementById("km").value);
+    taxa = km * 1.5;
+  } else {
+    document.getElementById("entregaBox").style.display = "none";
+  }
+
+  document.getElementById("total").innerText = (total + taxa).toFixed(2);
+}
+
+document.getElementById("tipo").addEventListener("change", calcular);
+document.getElementById("km").addEventListener("input", calcular);
+
+function finalizar(){
+  alert("Pedido enviado! (Aqui depois podemos integrar painel real)");
+}
+
+</script>
+
+</body>
+</html>
